@@ -1,9 +1,6 @@
 # Amazon Cart MCP Server
 
-[![GitHub](https://img.shields.io/badge/GitHub-meimakes-blue?logo=github)](https://github.com/meimakes)
-[![Website](https://img.shields.io/badge/Website-amazon.makemcp.dev-green)](https://amazon.makemcp.dev)
-
-Local MCP (Model Context Protocol) server that enables AI assistants like [Poke](https://poke.com) to interact with your personal Amazon cart through browser automation. Uses Puppeteer for browser control, exposed securely via ngrok.
+Local MCP (Model Context Protocol) server that enables AI assistants to interact with your personal Amazon cart through browser automation. Works with [Claude Desktop](https://claude.ai/download), [Poke](https://poke.com), and any MCP-compatible client.
 
 ## ⚠️ Important Disclaimer
 
@@ -95,6 +92,33 @@ By using this software, you acknowledge and accept these risks.
 4. Test the connection by asking Poke:
    - "What tools do you have?"
    - "Search Amazon for wireless mouse"
+
+## Connecting to Claude Desktop
+
+1. Build the project: `npm run build`
+2. Open Claude Desktop → Settings → Developer → Edit Config
+3. Add to `mcpServers`:
+
+```json
+{
+  "mcpServers": {
+    "amazon-cart": {
+      "command": "node",
+      "args": ["/absolute/path/to/amazon-mcp-server/dist/server.js"],
+      "env": {
+        "AUTH_TOKEN": "your-token-here",
+        "HEADLESS": "true",
+        "AMAZON_DOMAIN": "amazon.com"
+      }
+    }
+  }
+}
+```
+
+4. Restart Claude Desktop
+5. You should see the Amazon tools available in the tools menu (🔧)
+
+> **First-time setup:** Run the server once with `HEADLESS=false` to log into Amazon manually. After that, set `HEADLESS=true` for Claude Desktop.
 
 ## Available Tools
 
@@ -311,7 +335,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 - 🐛 **Issues:** [GitHub Issues](https://github.com/meimakes/amazon-mcp-server/issues)
 - 📧 **Contact:** via GitHub
-- 🌐 **Website:** [amazon.makemcp.dev](https://amazon.makemcp.dev)
 
 ## Author
 
