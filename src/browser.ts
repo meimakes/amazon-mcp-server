@@ -8,6 +8,14 @@ export async function getBrowser(): Promise<Browser> {
     return browserInstance;
   }
 
+  // Clean up stale reference if browser disconnected
+  if (browserInstance && !browserInstance.connected) {
+    console.log('Browser disconnected, cleaning up before relaunch...');
+    browserInstance = null;
+    // Give Chrome a moment to release the lock file
+    await new Promise(resolve => setTimeout(resolve, 1000));
+  }
+
   const userDataDir = path.resolve(process.env.USER_DATA_DIR || './user-data');
   const headless = process.env.HEADLESS === 'true';
 
